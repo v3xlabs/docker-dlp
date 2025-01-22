@@ -1,4 +1,4 @@
-FROM alpine:3.19 AS builder
+FROM debian:trixie-slim AS builder
 
 # Build arguments with defaults
 ARG CHANNEL=stable
@@ -6,20 +6,22 @@ ARG ORIGIN=local
 ARG VERSION
 ARG TARGETARCH
 
-RUN apk --update add --no-cache \
-    build-base \
+RUN apt-get update && apt-get install -y \
+    build-essential \
     python3 \
+    python3-pip \
+    python3-venv \
     pipx \
-    ;
+    scons \
+    patchelf \
+    binutils \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV PATH="/root/.local/bin:${PATH}"
 
 RUN pipx install pyinstaller
 # Requires above step to prepare the shared venv
 RUN ~/.local/share/pipx/shared/bin/python -m pip install -U wheel
-RUN apk --update add --no-cache \
-    scons \
-    patchelf \
-    binutils \
-    ;
 RUN pipx install staticx
 
 # Create build directory
@@ -36,20 +38,15 @@ ENV CHANNEL=${CHANNEL} \
 
 WORKDIR /yt-dlp
 
-RUN /builder.sh
+RUN bash /builder.sh
 
 RUN echo "Done building" && ls -laR /yt-dlp/dist
 
 FROM debian:trixie-slim
 
 ARG TARGETARCH
-RUN case "${TARGETARCH}" in \
-    amd64) export BINARY="yt-dlp_linux" ;; \
-    *) export BINARY="yt-dlp_linux_${TARGETARCH}" ;; \
-    esac && \
-    mkdir -p /usr/bin/ && \
-    echo "Using binary: $BINARY"
+COPY --from=builder --chmod=755 /yt-dlp/dist/yt-dlp_linux* /yt-dlp
 
-COPY --from=builder --chmod=755 /yt-dlp/dist/${BINARY} /usr/bin/yt-dlp
+RUN ln -s $(find /yt-dlp -name "yt-dlp_linux*" | head -n 1) /usr/bin/yt-dlp
 
 ENTRYPOINT ["/usr/bin/yt-dlp"]
