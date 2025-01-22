@@ -13,7 +13,7 @@ env:
 
 jobs:
     build:
-        runs-on: ubuntu-latest
+        runs-on: large-runner
         permissions:
             contents: read
             packages: write
