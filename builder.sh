@@ -4,7 +4,9 @@ set -e
 # Default values for build parameters
 : "${CHANNEL:=stable}"
 : "${ORIGIN:=local}"
-: "${VERSION:=$(date +%Y.%m.%d)}"
+: "${VERSION:=$(python -c "import yt_dlp; print(yt_dlp.__version__)")}"
+
+echo "Building with version: ${VERSION}"
 
 source ~/.local/share/pipx/venvs/pyinstaller/bin/activate
 python -m devscripts.install_deps --include secretstorage --include curl-cffi
