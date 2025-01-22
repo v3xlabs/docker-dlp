@@ -39,6 +39,6 @@ RUN /builder.sh
 
 FROM debian:trixie-slim
 
-COPY --from=builder --chmod=755 /build/yt-dlp_linux /usr/bin/yt-dlp
+COPY --from=builder --chmod=755 /yt-dlp/dist/yt-dlp_linux /usr/bin/yt-dlp
 
 ENTRYPOINT ["/usr/bin/yt-dlp"]
