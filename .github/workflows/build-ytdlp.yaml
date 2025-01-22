@@ -34,8 +34,8 @@ jobs:
             - name: Download latest yt-dlp source
               run: |
                   wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.tar.gz
-                  mkdir -p docker-dlp/yt-dlp
-                  tar xzf yt-dlp.tar.gz -C docker-dlp/yt-dlp --strip-components=1
+                  mkdir yt-dlp
+                  tar xzf yt-dlp.tar.gz -C yt-dlp --strip-components=1
                   rm yt-dlp.tar.gz
 
             - name: Log in to the Container registry
