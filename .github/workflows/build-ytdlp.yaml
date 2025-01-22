@@ -3,6 +3,9 @@ name: Build yt-dlp Docker Image
 on:
     workflow_dispatch:
     workflow_call:
+    push:
+        branches:
+            - master
 
 env:
     REGISTRY: ghcr.io
@@ -53,6 +56,10 @@ jobs:
                   tags: |
                       type=raw,value=latest
                       type=raw,value=${{ steps.ytdlp_version.outputs.version }}
+
+            - name: List all files in the repository
+              run: |
+                  ls -la
 
             - name: Build and push Docker image
               uses: docker/build-push-action@v6

@@ -1,4 +1,4 @@
-FROM alpine:3.19 as builder
+FROM alpine:3.19 AS builder
 
 # Build arguments with defaults
 ARG CHANNEL=stable
