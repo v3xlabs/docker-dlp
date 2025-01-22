@@ -32,6 +32,8 @@ ENV CHANNEL=${CHANNEL} \
     ORIGIN=${ORIGIN} \
     VERSION=${VERSION}
 
+WORKDIR /yt-dlp
+
 RUN /builder.sh
 
 FROM debian:trixie-slim
