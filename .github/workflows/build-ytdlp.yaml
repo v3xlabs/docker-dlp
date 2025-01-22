@@ -34,12 +34,9 @@ jobs:
                   LATEST_VERSION=$(curl -s https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest | jq -r .tag_name)
                   echo "version=${LATEST_VERSION}" >> $GITHUB_OUTPUT
 
-            - name: Download latest yt-dlp source
+            - name: Clone yt-dlp repository
               run: |
-                  wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.tar.gz
-                  mkdir yt-dlp
-                  tar xzf yt-dlp.tar.gz -C yt-dlp --strip-components=1
-                  rm yt-dlp.tar.gz
+                  git clone --depth 1 --branch release https://github.com/yt-dlp/yt-dlp.git
 
             - name: Log in to the Container registry
               uses: docker/login-action@v3
