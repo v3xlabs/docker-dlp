@@ -25,7 +25,7 @@ RUN pipx install staticx
 RUN mkdir /build
 
 COPY ./yt-dlp /yt-dlp
-COPY builder.sh /builder.sh
+COPY --chmod=755 builder.sh /builder.sh
 
 # Pass build arguments to the builder script
 ENV CHANNEL=${CHANNEL} \
