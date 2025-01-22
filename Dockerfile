@@ -30,7 +30,8 @@ COPY --chmod=755 builder.sh /builder.sh
 # Pass build arguments to the builder script
 ENV CHANNEL=${CHANNEL} \
     ORIGIN=${ORIGIN} \
-    VERSION=${VERSION}
+    VERSION=${VERSION} \
+    PYTHONPATH=/yt-dlp
 
 WORKDIR /yt-dlp
 
