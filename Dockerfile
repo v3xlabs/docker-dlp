@@ -4,6 +4,7 @@ FROM alpine:3.19 AS builder
 ARG CHANNEL=stable
 ARG ORIGIN=local
 ARG VERSION
+ARG TARGETARCH
 
 RUN apk --update add --no-cache \
     build-base \
@@ -41,6 +42,14 @@ RUN echo "Done building" && ls -laR /yt-dlp/dist
 
 FROM debian:trixie-slim
 
-COPY --from=builder --chmod=755 /yt-dlp/dist/yt-dlp_linux /usr/bin/yt-dlp
+ARG TARGETARCH
+RUN case "${TARGETARCH}" in \
+    amd64) export BINARY="yt-dlp_linux" ;; \
+    *) export BINARY="yt-dlp_linux_${TARGETARCH}" ;; \
+    esac && \
+    mkdir -p /usr/bin/ && \
+    echo "Using binary: $BINARY"
+
+COPY --from=builder --chmod=755 /yt-dlp/dist/${BINARY} /usr/bin/yt-dlp
 
 ENTRYPOINT ["/usr/bin/yt-dlp"]
