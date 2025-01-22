@@ -37,6 +37,8 @@ WORKDIR /yt-dlp
 
 RUN /builder.sh
 
+RUN echo "Done building" && ls -laR /yt-dlp/dist
+
 FROM debian:trixie-slim
 
 COPY --from=builder --chmod=755 /yt-dlp/dist/yt-dlp_linux /usr/bin/yt-dlp
