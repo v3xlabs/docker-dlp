@@ -1,4 +1,4 @@
-#!/bin/ash
+#!/bin/bash
 set -e
 
 # Default values for build parameters
