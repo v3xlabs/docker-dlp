@@ -37,7 +37,7 @@ jobs:
 
             - name: Clone yt-dlp repository
               run: |
-                  git clone --depth 1 --branch release https://github.com/yt-dlp/yt-dlp.git
+                  git clone --depth 1 --branch master https://github.com/yt-dlp/yt-dlp.git
 
             - name: Log in to the Container registry
               uses: docker/login-action@v3
