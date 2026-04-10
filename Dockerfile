@@ -22,7 +22,6 @@ ENV PATH="/root/.local/bin:${PATH}"
 RUN pipx install pyinstaller
 # Requires above step to prepare the shared venv
 RUN ~/.local/share/pipx/shared/bin/python -m pip install -U wheel
-RUN pipx install staticx
 
 # Create build directory
 RUN mkdir /build
